@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
     const client  =  await db.connect();
     try {
         await client.sql `CREATE TABLE IF NOT EXISTS Todos (id serial, task varchar(255));`;
-        const tasks = ['Buy milk', 'Walk the dog'];
+        const tasks = ['Learn Drizzle', 'Learn Next.js'];
         await client.sql `INSERT INTO Todos (task) VALUES (${tasks[0]}), (${tasks[1]});`;
     }catch(error){
         return NextResponse.json({message:'Something went wrong'})
