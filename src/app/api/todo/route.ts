@@ -24,6 +24,7 @@ export async function POST(request:NextRequest){
             throw new Error ('Task field is required')
         }
     }catch(error){
-        return NextResponse.json({ message:'Something went wrong'})
+        return NextResponse.json({message: error as {message:string}}.message)
     }
+    
 }
