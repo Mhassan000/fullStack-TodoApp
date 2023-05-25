@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
 
 
     }catch(error){
-        return NextResponse.json ({message:'Something went wrong'})
+        return NextResponse.json  ({message:'Something went wrong'})
     }
 }
 
