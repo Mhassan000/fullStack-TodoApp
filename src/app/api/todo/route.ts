@@ -20,6 +20,7 @@ export async function POST(request:NextRequest){
     try {
         if (req.task){
             await client.sql `INSERT INTO Todos (task) VALUES (${req.task})`
+            return NextResponse.json({message: 'data added successfully'})
         }else{
             throw new Error ('Task field is required')
         }
