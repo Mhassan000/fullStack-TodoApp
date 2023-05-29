@@ -5,10 +5,10 @@ import { sql } from "@vercel/postgres";
 
 export async function GET(request: NextRequest) {
     // Get request using drizzle
-
     try{
-        await sql `CREATE TABLE IF NOT EXISTS Todos (id serial, task varchar(255));`;
+        await sql `CREATE TABLE IF NOT EXISTS todos (id serial, task varchar(255));`;
         const res = await db.select().from(todoTable);
+        //console.log(res[0].task)
         return NextResponse.json({data: res});
     }catch(error){
         console.log ((error as {message:string}).message);
@@ -16,8 +16,28 @@ export async function GET(request: NextRequest) {
 
     }
 
+    
+}
 
-    // Get request using postgres
+export async function POST(request:NextRequest){
+    // Post request using drizzle
+
+    const body = await request.json();
+    try{
+        if (body.task){
+            const res =  db.insert(todoTable).values({
+                task: body.task
+            }).returning();
+            return NextResponse.json({message: 'data added successfully'})
+        }
+    }catch(error){
+        console.log ((error as {message:string}).message);
+        return NextResponse.json({message:'Something went wrong'})
+    }
+}
+
+// Get request using postgres
+// export async function GET(request: NextRequest) {
     // const client  =  await db.connect(); 
     // try {
     //     await sql `CREATE TABLE IF NOT EXISTS Todos (id serial, task varchar(255));`;
@@ -26,7 +46,7 @@ export async function GET(request: NextRequest) {
     // }
     // const todos = await client.sql `SELECT * FROM Todos;`;   
     // return NextResponse.json({todos});
-}
+// }
 
 
 // export async function POST(request:NextRequest){
